@@ -23,9 +23,10 @@ public class Estabelecimento {
     private String cnpj;
     private String endereco;
     private String telefone;
-    private Integer quantidadeVagasParaMoto;
-    private Integer quantidadeVagasParaCarro;
+    private int quantidadeDeVagas;
 
     @OneToMany(mappedBy = "estabelecimento")
     private List<Veiculo> veiculos = new ArrayList<>();
+
+
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "veiculo")
 @AllArgsConstructor
@@ -21,11 +23,13 @@ public class Veiculo {
     private String marca;
     private String modelo;
     private String cor;
-    private String placa; // Change the data type to String for license plate
+    private String placa;
     private String tipo;
+    private LocalDate dataDeEntrada;
+    private LocalDate dataDeSaida;
 
     @ManyToOne
     @JoinColumn(name = "estabelecimento_id")
-    private Estabelecimento estabelecimento; // Rename to singular form
+    private Estabelecimento estabelecimento;
 
 }
