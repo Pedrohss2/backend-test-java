@@ -34,7 +34,4 @@ public class VeiculoController {
         return ResponseEntity.created(uri).body(veiculoDTO);
     }
 
-
-
-
 }

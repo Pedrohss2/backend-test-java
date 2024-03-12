@@ -1,6 +1,5 @@
 package com.demo.backendtestjava.service;
 
-import com.demo.backendtestjava.dto.EstabelecimentoDTO;
 import com.demo.backendtestjava.dto.VeiculoDTO;
 import com.demo.backendtestjava.entities.Estabelecimento;
 import com.demo.backendtestjava.entities.Veiculo;
@@ -8,12 +7,9 @@ import com.demo.backendtestjava.repository.EstabelecimentoRepository;
 import com.demo.backendtestjava.repository.VeiculoRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VeiculoService {
@@ -50,7 +46,6 @@ public class VeiculoService {
 
     public boolean estacionamentoLotado(Estabelecimento estabelecimento) {
         List<Veiculo> veiculos = repository.findAll();
-
         return veiculos.size() >= estabelecimento.getQuantidadeDeVagas();
     }
 
