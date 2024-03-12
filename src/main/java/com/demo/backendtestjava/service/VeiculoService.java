@@ -31,7 +31,7 @@ public class VeiculoService {
     @Transactional
     public VeiculoDTO insert(VeiculoDTO dto) {
         Veiculo veiculo = new Veiculo();
-        copyToDto(dto, veiculo);
+        copiarVeiculoParaVeiculoDto(dto, veiculo);
 
         Estabelecimento estabelecimento = estabelecimentoRepository.getReferenceById(dto.getEstabelecimentoId().getId());
         veiculo.setEstabelecimento(estabelecimento);
@@ -49,7 +49,7 @@ public class VeiculoService {
         return veiculos.size() >= estabelecimento.getQuantidadeDeVagas();
     }
 
-    public void copyToDto(VeiculoDTO dto, Veiculo veiculo) {
+    public void copiarVeiculoParaVeiculoDto(VeiculoDTO dto, Veiculo veiculo) {
         veiculo.setMarca(dto.getMarca());
         veiculo.setModelo(dto.getModelo());
         veiculo.setCor(dto.getCor());
