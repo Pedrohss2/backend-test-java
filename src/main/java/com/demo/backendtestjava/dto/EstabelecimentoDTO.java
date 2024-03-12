@@ -1,7 +1,6 @@
 package com.demo.backendtestjava.dto;
 
 import com.demo.backendtestjava.entities.Estabelecimento;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +15,7 @@ public class EstabelecimentoDTO {
     private String cnpj;
     private String endereco;
     private String telefone;
-    private Integer quantidadeDeVagas;
+    private int quantidadeDeVagas;
 
 
     public EstabelecimentoDTO(Estabelecimento estabelecimento) {
@@ -27,6 +26,8 @@ public class EstabelecimentoDTO {
         telefone = estabelecimento.getTelefone();
         quantidadeDeVagas = estabelecimento.getQuantidadeDeVagas();
     }
+    
+
 
 
 }

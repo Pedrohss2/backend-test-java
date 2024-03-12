@@ -8,6 +8,7 @@ import com.demo.backendtestjava.repository.EstabelecimentoRepository;
 import com.demo.backendtestjava.repository.VeiculoRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,22 +37,21 @@ public class VeiculoService {
         Veiculo veiculo = new Veiculo();
         copyToDto(dto, veiculo);
 
-        Estabelecimento estabelecimento = new Estabelecimento();
-        estabelecimento.setId(dto.getEstabelecimentoId().getId());
+        Estabelecimento estabelecimento = estabelecimentoRepository.getReferenceById(dto.getEstabelecimentoId().getId());
         veiculo.setEstabelecimento(estabelecimento);
 
-        if(estacionamentoLotado(5)) {
-            throw new Exception("Quantidade de vagas atingida, sorry");
+        if(estacionamentoLotado(estabelecimento)) {
+            throw new Exception("Erro otario");
         }
-        veiculo = repository.save(veiculo);
 
+        veiculo = repository.save(veiculo);
         return new VeiculoDTO(veiculo);
     }
 
-    public boolean estacionamentoLotado(Integer max) {
+    public boolean estacionamentoLotado(Estabelecimento estabelecimento) {
         List<Veiculo> veiculos = repository.findAll();
 
-        return  veiculos.size() >= max;
+        return veiculos.size() >= estabelecimento.getQuantidadeDeVagas();
     }
 
     public void copyToDto(VeiculoDTO dto, Veiculo veiculo) {
@@ -60,6 +60,9 @@ public class VeiculoService {
         veiculo.setCor(dto.getCor());
         veiculo.setPlaca(dto.getPlaca());
         veiculo.setTipo(dto.getTipo());
+        veiculo.setDataDeEntrada(dto.getDataDeEntrada());
+        veiculo.setDataDeSaida(dto.getDataDeSaida());
     }
+
 
 }

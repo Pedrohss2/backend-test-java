@@ -26,7 +26,7 @@ public class EstabelecimentoController {
 
 
     @PostMapping
-    public ResponseEntity<EstabelecimentoDTO> inser(@RequestBody EstabelecimentoDTO estabelecimentoDTO) {
+    public ResponseEntity<EstabelecimentoDTO> insert(@RequestBody EstabelecimentoDTO estabelecimentoDTO) {
         estabelecimentoDTO = service.insert(estabelecimentoDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
