@@ -41,7 +41,7 @@ public class VeiculoService {
         veiculo.setEstabelecimento(estabelecimento);
 
         if(estacionamentoLotado(estabelecimento)) {
-            throw new Exception("Erro otario");
+            throw new Exception("O estaccionamento esta lotado!, tente novamente mais tarde..");
         }
 
         veiculo = repository.save(veiculo);
