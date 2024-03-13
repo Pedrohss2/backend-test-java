@@ -5,7 +5,9 @@ import com.demo.backendtestjava.entities.Estabelecimento;
 import com.demo.backendtestjava.entities.Veiculo;
 import com.demo.backendtestjava.repository.EstabelecimentoRepository;
 import com.demo.backendtestjava.repository.VeiculoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
+import org.hibernate.query.criteria.JpaRoot;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -39,6 +41,26 @@ public class EstabelecimentoService {
 
         return new EstabelecimentoDTO(estabelecimento);
     }
+
+    @SneakyThrows(Exception.class)
+    @Transactional
+    public EstabelecimentoDTO atualizar(Long id, EstabelecimentoDTO dto) {
+        try {
+            Estabelecimento estabelecimento = repository.getReferenceById(id);
+            estabelecimento.setNome(dto.getNome());
+            estabelecimento.setCnpj(dto.getCnpj());
+            estabelecimento.setTelefone(dto.getTelefone());
+            estabelecimento.setEndereco(dto.getEndereco());
+            estabelecimento.setQuantidadeDeVagas(estabelecimento.getQuantidadeDeVagas());
+
+            estabelecimento = repository.save(estabelecimento);
+            return new EstabelecimentoDTO(estabelecimento);
+        }
+        catch (EntityNotFoundException e) {
+            throw new Exception("Recurso não encontrado");
+        }
+    }
+
 
     public  boolean estacionamentoLotado(Estabelecimento estabelecimento) {
         List<Veiculo> veiculos = veiculoRepository.findAll();

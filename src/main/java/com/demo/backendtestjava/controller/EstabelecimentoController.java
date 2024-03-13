@@ -37,4 +37,10 @@ public class EstabelecimentoController {
         return ResponseEntity.created(uri).build();
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<EstabelecimentoDTO> atualizar(@PathVariable Long id, @RequestBody EstabelecimentoDTO dto) {
+        dto = service.atualizar(id, dto);
+        return ResponseEntity.ok(dto);
+    }
+
 }
