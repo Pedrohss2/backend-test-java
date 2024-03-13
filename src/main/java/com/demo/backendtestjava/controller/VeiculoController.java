@@ -34,4 +34,11 @@ public class VeiculoController {
         return ResponseEntity.created(uri).body(veiculoDTO);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteVeiculoPorId(@PathVariable Long id) {
+        service.deletaVeiculoPorId(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

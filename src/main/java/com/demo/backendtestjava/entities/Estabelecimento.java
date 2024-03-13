@@ -28,5 +28,4 @@ public class Estabelecimento {
     @OneToMany(mappedBy = "estabelecimento")
     private List<Veiculo> veiculos = new ArrayList<>();
 
-
 }

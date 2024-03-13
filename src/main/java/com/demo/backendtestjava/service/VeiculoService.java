@@ -7,9 +7,11 @@ import com.demo.backendtestjava.repository.EstabelecimentoRepository;
 import com.demo.backendtestjava.repository.VeiculoRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
 
 @Service
 public class VeiculoService {
@@ -18,6 +20,9 @@ public class VeiculoService {
     private  VeiculoRepository repository;
     @Autowired
     private EstabelecimentoRepository estabelecimentoRepository;
+
+    @Autowired
+    private EstabelecimentoService estabelecimentoService;
 
     @SneakyThrows(Exception.class)
     @Transactional(readOnly = true)
@@ -36,18 +41,28 @@ public class VeiculoService {
         Estabelecimento estabelecimento = estabelecimentoRepository.getReferenceById(dto.getEstabelecimentoId().getId());
         veiculo.setEstabelecimento(estabelecimento);
 
-        if(estacionamentoLotado(estabelecimento)) {
+        if(estabelecimentoService.estacionamentoLotado(estabelecimento)) {
             throw new Exception("O estaccionamento esta lotado!, tente novamente mais tarde..");
         }
 
         veiculo = repository.save(veiculo);
+
         return new VeiculoDTO(veiculo);
     }
 
-    public boolean estacionamentoLotado(Estabelecimento estabelecimento) {
-        List<Veiculo> veiculos = repository.findAll();
-        return veiculos.size() >= estabelecimento.getQuantidadeDeVagas();
+    @SneakyThrows(Exception.class)
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void deletaVeiculoPorId(Long id) {
+        repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado"));
+
+        try {
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new Exception("A deleção não pode ser feita");
+        }
     }
+
 
     public void copiarVeiculoParaVeiculoDto(VeiculoDTO dto, Veiculo veiculo) {
         veiculo.setMarca(dto.getMarca());
