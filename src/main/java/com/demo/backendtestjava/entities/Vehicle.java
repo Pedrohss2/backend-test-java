@@ -15,39 +15,39 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Veiculo {
+public class Vehicle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String marca;
-    private String modelo;
-    private String cor;
+    private String brand;
+    private String model;
+    private String color;
     @Column(unique = true)
-    private String placa;
-    private String tipo;
-    private LocalDate dataDeEntrada;
-    private LocalDate dataDeSaida;
+    private String plate;
+    private String type;
+    private LocalDate entryDate;
+    private LocalDate departureDate;
 
     @ManyToOne
-    @JoinColumn(name = "estabelecimento_id")
-    private Estabelecimento estabelecimento;
+    @JoinColumn(name = "establishment_id")
+    private Establishment establishment;
 
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Veiculo veiculo)) return false;
+        if (!(o instanceof Vehicle vehicle)) return false;
 
-        if (!Objects.equals(id, veiculo.id)) return false;
-        return Objects.equals(placa, veiculo.placa);
+        if (!Objects.equals(id, vehicle.id)) return false;
+        return Objects.equals(plate, vehicle.plate);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (placa != null ? placa.hashCode() : 0);
+        result = 31 * result + (plate != null ? plate.hashCode() : 0);
         return result;
     }
 }

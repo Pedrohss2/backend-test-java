@@ -14,40 +14,40 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Estabelecimento {
+public class Establishment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+    private String name;
     @Column(unique = true)
     private String cnpj;
     @Column(unique = true)
-    private String endereco;
+    private String address;
     @Column(unique = true)
-    private String telefone;
-    private int quantidadeDeVagas;
+    private String phone;
+    private int quantityOfVacancies;
 
-    @OneToMany(mappedBy = "estabelecimento")
-    private Set<Veiculo> veiculos = new HashSet<>();
+    @OneToMany(mappedBy = "establishment")
+    private Set<Vehicle> vehicles = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Estabelecimento that)) return false;
+        if (!(o instanceof Establishment that)) return false;
 
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(cnpj, that.cnpj)) return false;
-        if (!Objects.equals(endereco, that.endereco)) return false;
-        return Objects.equals(veiculos, that.veiculos);
+        if (!Objects.equals(address, that.address)) return false;
+        return Objects.equals(vehicles, that.vehicles);
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (cnpj != null ? cnpj.hashCode() : 0);
-        result = 31 * result + (endereco != null ? endereco.hashCode() : 0);
-        result = 31 * result + (veiculos != null ? veiculos.hashCode() : 0);
+        result = 31 * result + (address != null ? address.hashCode() : 0);
+        result = 31 * result + (vehicles != null ? vehicles.hashCode() : 0);
         return result;
     }
 }

@@ -1,7 +1,6 @@
 package com.demo.backendtestjava.dto;
 
-import com.demo.backendtestjava.entities.Estabelecimento;
-import com.demo.backendtestjava.entities.Veiculo;
+import com.demo.backendtestjava.entities.Vehicle;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -14,37 +13,37 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class VeiculoDTO {
+public class VehicleDTO {
 
     private Long id;
     @NotBlank(message = "Campo 'marca' não pode ser vazio")
-    private String marca;
-    private String modelo;
-    private String cor;
+    private String brand;
+    private String model;
+    private String color;
     @NotBlank(message = "Campo 'placa' não pode ser vazio")
-    private String placa;
-    private String tipo;
+    private String plate;
+    private String type;
 
     @NotBlank(message = "Campo 'dataDeEntrada' não pode ser vazio")
     @Past(message = "A data de entrada precisa ser no presente, não pode ser no passado")
-    private LocalDate dataDeEntrada;
+    private LocalDate entryDate;
 
     @NotBlank(message = "Campo 'dataDeSaida' não pode ser vazio")
     @FutureOrPresent(message = "A data de saida precisa ser no presente ou no futuro")
-    private LocalDate dataDeSaida;
+    private LocalDate departureDate;
 
     @NotBlank(message = "Campo 'estabelecimentoId' não pode ser vazio")
-    private EstabelecimentoDTO estabelecimentoId;
+    private EstablishmentDTO establishmentId;
 
-    public VeiculoDTO(Veiculo veiculo) {
-        id = veiculo.getId();
-        marca = veiculo.getMarca();
-        modelo = veiculo.getModelo();
-        cor = veiculo.getCor();
-        placa = veiculo.getPlaca();
-        tipo = veiculo.getTipo();
-        dataDeEntrada = veiculo.getDataDeEntrada();
-        dataDeSaida = veiculo.getDataDeSaida();
-        estabelecimentoId = new EstabelecimentoDTO(veiculo.getEstabelecimento());
+    public VehicleDTO(Vehicle vehicle) {
+        id = vehicle.getId();
+        brand = vehicle.getBrand();
+        model = vehicle.getModel();
+        color = vehicle.getColor();
+        plate = vehicle.getPlate();
+        type = vehicle.getType();
+        entryDate = vehicle.getEntryDate();
+        departureDate = vehicle.getDepartureDate();
+        establishmentId = new EstablishmentDTO(vehicle.getEstablishment());
     }
 }
