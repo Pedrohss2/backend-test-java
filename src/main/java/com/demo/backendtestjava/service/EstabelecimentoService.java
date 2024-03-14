@@ -7,11 +7,13 @@ import com.demo.backendtestjava.repository.EstabelecimentoRepository;
 import com.demo.backendtestjava.repository.VeiculoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
-import org.hibernate.query.criteria.JpaRoot;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -31,6 +33,14 @@ public class EstabelecimentoService {
         Estabelecimento estabelecimento = repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado.."));
         return new EstabelecimentoDTO(estabelecimento);
     }
+
+
+    @Transactional(readOnly = true)
+    public Page<EstabelecimentoDTO> findAll(Pageable pageable) {
+        Page<Estabelecimento> estabelecimentos = repository.findAll(pageable);
+        return estabelecimentos.map(x -> new EstabelecimentoDTO(x));
+    }
+
 
     @Transactional
     public EstabelecimentoDTO insert(EstabelecimentoDTO dto) {
@@ -58,6 +68,19 @@ public class EstabelecimentoService {
         }
         catch (EntityNotFoundException e) {
             throw new Exception("Recurso não encontrado");
+        }
+    }
+
+    @SneakyThrows(Exception.class)
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void deletarEstabelecimentoPorId(Long id) {
+        repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado"));
+
+        try {
+            repository.deleteById(id);
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new Exception("A deleção não pode ser feita");
         }
     }
 
