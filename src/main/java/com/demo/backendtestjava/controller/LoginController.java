@@ -48,7 +48,7 @@ public class LoginController {
         }
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
-        User user = new User(dto.login(), encryptedPassword, dto.role());
+        User user = new User(dto.name(), dto.login(), encryptedPassword, dto.role());
 
         this.repository.save(user);
 

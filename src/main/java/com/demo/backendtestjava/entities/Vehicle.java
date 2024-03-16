@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "veiculo")
+@Table(name = "Vehicle")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,16 +18,17 @@ import java.util.Objects;
 public class Vehicle {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String brand;
     private String model;
     private String color;
-    @Column(unique = true)
     private String plate;
     private String type;
+    @Column(name = "entry_date")
     private LocalDate entryDate;
+    @Column(name = "departure_date")
     private LocalDate departureDate;
 
     @ManyToOne

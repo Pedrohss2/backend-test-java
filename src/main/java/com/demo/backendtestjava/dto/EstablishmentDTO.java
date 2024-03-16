@@ -13,18 +13,18 @@ public class EstablishmentDTO {
     private Long id;
     private String name;
     private String cnpj;
-    private String adrres;
+    private String address;
     private String phone;
-    private int quantidadeDeVagas;
+    private int quantityOfVacancies;
 
 
-    public EstablishmentDTO(Establishment estabelecimento) {
-        id = estabelecimento.getId();
-        name = estabelecimento.getName();
-        cnpj = estabelecimento.getCnpj();
-        adrres = estabelecimento.getAddress();
-        phone = estabelecimento.getPhone();
-        quantidadeDeVagas = estabelecimento.getQuantityOfVacancies();
+    public EstablishmentDTO(Establishment establishment) {
+        id = establishment.getId();
+        name = establishment.getName();
+        cnpj = establishment.getCnpj();
+        address = establishment.getAddress();
+        phone = establishment.getPhone();
+        quantityOfVacancies = establishment.getQuantityOfVacancies();
     }
     
 

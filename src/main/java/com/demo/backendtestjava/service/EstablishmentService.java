@@ -62,7 +62,7 @@ public class EstablishmentService {
             estabelecimento.setName(dto.getName());
             estabelecimento.setCnpj(dto.getCnpj());
             estabelecimento.setPhone(dto.getPhone());
-            estabelecimento.setAddress(dto.getAdrres());
+            estabelecimento.setAddress(dto.getAddress());
             estabelecimento.setQuantityOfVacancies(estabelecimento.getQuantityOfVacancies());
 
             estabelecimento = repository.save(estabelecimento);
@@ -87,7 +87,7 @@ public class EstablishmentService {
     }
 
 
-    public  boolean parkingCrowded(Establishment establishment) {
+    public boolean parkingCrowded(Establishment establishment) {
         List<Vehicle> vehicles = vehicleRepository.findAll();
         return vehicles.size() >= establishment.getQuantityOfVacancies();
     }
