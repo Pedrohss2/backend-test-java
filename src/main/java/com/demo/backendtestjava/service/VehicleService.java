@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 public class VehicleService {
 
@@ -44,7 +43,7 @@ public class VehicleService {
         vehicle.setEstablishment(establishment);
 
         if(establishmentService.parkingCrowded(establishment)) {
-            throw new Exception("O estacionamento esta lotado!, tente novamente mais tarde..");
+            throw new Exception("The parking lot is full!, try again later..");
         }
 
         vehicle = repository.save(vehicle);
@@ -55,13 +54,13 @@ public class VehicleService {
     @SneakyThrows(Exception.class)
     @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteVehicleById(Long id) {
-        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
+        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
 
         try {
             repository.deleteById(id);
         }
         catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("A deleção não pode ser feita");
+            throw new DatabaseException("Deletion cannot be done");
         }
     }
 
