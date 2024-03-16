@@ -5,6 +5,8 @@ import com.demo.backendtestjava.entities.Establishment;
 import com.demo.backendtestjava.entities.Vehicle;
 import com.demo.backendtestjava.repository.EstablishmentRepository;
 import com.demo.backendtestjava.repository.VehicleRepository;
+import com.demo.backendtestjava.service.Exception.DatabaseException;
+import com.demo.backendtestjava.service.Exception.ResourceNotFoundException;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,7 +29,7 @@ public class VehicleService {
     @SneakyThrows(Exception.class)
     @Transactional(readOnly = true)
     public VehicleDTO findById(Long id) {
-        Vehicle vehicle = repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado"));
+        Vehicle vehicle = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
 
         return new VehicleDTO(vehicle);
     }
@@ -42,7 +44,7 @@ public class VehicleService {
         vehicle.setEstablishment(establishment);
 
         if(establishmentService.parkingCrowded(establishment)) {
-            throw new Exception("O estaccionamento esta lotado!, tente novamente mais tarde..");
+            throw new Exception("O estacionamento esta lotado!, tente novamente mais tarde..");
         }
 
         vehicle = repository.save(vehicle);
@@ -53,13 +55,13 @@ public class VehicleService {
     @SneakyThrows(Exception.class)
     @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteVehicleById(Long id) {
-        repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado"));
+        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
 
         try {
             repository.deleteById(id);
         }
         catch (DataIntegrityViolationException e) {
-            throw new Exception("A deleção não pode ser feita");
+            throw new DatabaseException("A deleção não pode ser feita");
         }
     }
 
