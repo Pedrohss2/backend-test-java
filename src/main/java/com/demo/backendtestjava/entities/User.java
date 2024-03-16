@@ -17,21 +17,23 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
+@Table(name = "Users")
 @Entity
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
     private String login;
+    @Column(length = 100)
     private String password;
 
     private UserRole role;
 
 
-    public User(String login, String password, UserRole role) {
+    public User(String name, String login, String password, UserRole role) {
+        this.name = name;
         this.login = login;
         this.password = password;
         this.role = role;

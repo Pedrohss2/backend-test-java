@@ -10,7 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 
 @RestController
-@RequestMapping(value = "/veiculo")
+@RequestMapping(value = "/vehicle")
 public class VehicleController {
 
     @Autowired

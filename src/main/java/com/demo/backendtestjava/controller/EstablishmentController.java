@@ -2,7 +2,9 @@ package com.demo.backendtestjava.controller;
 
 import com.demo.backendtestjava.dto.EstablishmentDTO;
 import com.demo.backendtestjava.service.EstablishmentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,6 @@ public class EstablishmentController {
     }
 
 
-
     @GetMapping
     public ResponseEntity<Page<EstablishmentDTO>> findAll(Pageable pageable) {
         Page<EstablishmentDTO> estabelecimentoDTOPage = service.findAll(pageable);
@@ -35,7 +36,7 @@ public class EstablishmentController {
 
 
     @PostMapping
-    public ResponseEntity<EstablishmentDTO> insert(@RequestBody EstablishmentDTO establishmentDTO) {
+    public ResponseEntity<EstablishmentDTO> insert(@Valid @RequestBody EstablishmentDTO establishmentDTO) {
         establishmentDTO = service.insert(establishmentDTO);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -47,7 +48,7 @@ public class EstablishmentController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<EstablishmentDTO> update(@PathVariable Long id, @RequestBody EstablishmentDTO dto) {
+    public ResponseEntity<EstablishmentDTO> update(@PathVariable Long id, @Valid @RequestBody EstablishmentDTO dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok(dto);
     }

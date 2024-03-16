@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.*;
 
 @Entity
-@Table(name = "estabelecimento")
+@Table(name = "Establishment")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,15 +17,13 @@ import java.util.*;
 public class Establishment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private String name;
-    @Column(unique = true)
     private String cnpj;
-    @Column(unique = true)
     private String address;
-    @Column(unique = true)
     private String phone;
+    @Column(name = "quantity_of_vacancies")
     private int quantityOfVacancies;
 
     @OneToMany(mappedBy = "establishment")

@@ -5,6 +5,8 @@ import com.demo.backendtestjava.entities.Establishment;
 import com.demo.backendtestjava.entities.Vehicle;
 import com.demo.backendtestjava.repository.EstablishmentRepository;
 import com.demo.backendtestjava.repository.VehicleRepository;
+import com.demo.backendtestjava.service.Exception.DatabaseException;
+import com.demo.backendtestjava.service.Exception.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
@@ -30,7 +32,7 @@ public class EstablishmentService {
     @SneakyThrows(Exception.class)
     @Transactional(readOnly = true)
     public EstablishmentDTO findById(Long id) {
-        Establishment estabelecimento = repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado.."));
+        Establishment estabelecimento = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found."));
         return new EstablishmentDTO(estabelecimento);
     }
 
@@ -60,32 +62,32 @@ public class EstablishmentService {
             estabelecimento.setName(dto.getName());
             estabelecimento.setCnpj(dto.getCnpj());
             estabelecimento.setPhone(dto.getPhone());
-            estabelecimento.setAddress(dto.getAdrres());
+            estabelecimento.setAddress(dto.getAddress());
             estabelecimento.setQuantityOfVacancies(estabelecimento.getQuantityOfVacancies());
 
             estabelecimento = repository.save(estabelecimento);
             return new EstablishmentDTO(estabelecimento);
         }
         catch (EntityNotFoundException e) {
-            throw new Exception("Recurso não encontrado");
+            throw new ResourceNotFoundException("Resource not found.");
         }
     }
 
     @SneakyThrows(Exception.class)
     @Transactional(propagation = Propagation.SUPPORTS)
     public void deleteEstablishmentById(Long id) {
-        repository.findById(id).orElseThrow(() -> new Exception("Recurso não encontrado"));
+        repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Resource not found."));
 
         try {
             repository.deleteById(id);
         }
         catch (DataIntegrityViolationException e) {
-            throw new Exception("A deleção não pode ser feita");
+            throw new DatabaseException("A deleção não pode ser feita");
         }
     }
 
 
-    public  boolean parkingCrowded(Establishment establishment) {
+    public boolean parkingCrowded(Establishment establishment) {
         List<Vehicle> vehicles = vehicleRepository.findAll();
         return vehicles.size() >= establishment.getQuantityOfVacancies();
     }
